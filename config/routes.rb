@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       get '/quit' => 'interface#quit'
       get '/all' => 'interface#all'
       get '/find' => 'interface#find'
-      get '/change' => 'interface#change'
+      post '/change' => 'interface#change'
     end
   end
 end
