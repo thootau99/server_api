@@ -14,11 +14,13 @@ class Api::V1::InterfaceController < ApplicationController
     begin
       id = params[:id]
       findEntity = Interface.find(id)
+      render json: {interfaces: findEntity}
+
     rescue ActiveRecord::RecordNotFound
       findEntity = "not found"
+      render json: {interfaces: findEntity}, status: 400
+
     end
-    print findEntity
-    render json: {interfaces: findEntity}
   end
 
   def change
@@ -32,7 +34,7 @@ class Api::V1::InterfaceController < ApplicationController
       findEntity.save
       render json: {interfaces: findEntity}
     rescue ActiveRecord::RecordNotFound
-      render json: {interfaces: "notfound"}
+      render json: {interfaces: "notfound"}, status: 400
       return
     end
   end
