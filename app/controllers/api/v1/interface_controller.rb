@@ -23,6 +23,18 @@ class Api::V1::InterfaceController < ApplicationController
     end
   end
 
+  def exit
+    begin
+      id = params[:id]
+      findEntity = Interface.find(id)
+      findEntity.destroy
+      render json: {interfaces: findEntity}
+    rescue ActiveRecord::RecordNotFound
+      findEntity = "not found"
+      render json: {interfaces: findEntity}, status: 400
+    end
+  end
+
   def change
     begin
       id = params[:id]
@@ -38,6 +50,33 @@ class Api::V1::InterfaceController < ApplicationController
       return
     end
   end
+  
+  def pause
+    begin
+      id = params[:id]
+      findEntity = Interface.find(id)
+      findEntity.stop = true
+      findEntity.save
+      render json: {interfaces: findEntity}
+    rescue ActiveRecord::RecordNotFound
+      render json: {interfaces: "notfound"}, status: 400
+      return
+    end
+  end
+
+  def play
+    begin
+      id = params[:id]
+      findEntity = Interface.find(id)
+      findEntity.stop = false
+      findEntity.save
+      render json: {interfaces: findEntity}
+    rescue ActiveRecord::RecordNotFound
+      render json: {interfaces: "notfound"}, status: 400
+      return
+    end
+  end
+
 
   def quit
     Interface.delete_all
